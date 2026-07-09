@@ -1,0 +1,16 @@
+name: A
+on:
+  workflow_dispatch:
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+jobs:
+ a:
+   name: a
+   runs-on: ubuntu-latest
+   timeout-minutes: 5
+   steps:
+     - name: Date
+       id: date
+       run: date
+     - name: Echo
+       run: echo ${{ vars.date }}
