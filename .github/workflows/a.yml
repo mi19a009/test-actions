@@ -8,16 +8,22 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    permissions:
+      contents: write
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v7
       - name: Name
         run: date +${{ github.ref }}-%Y.%m.%d-%H.%M.%S > NAME
-      - name: Tag
+      - name: Git Tag
         run: git tag -a `echo NAME` -m "${{ github.ref }}"
-      - name: Push
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Git Push
         run: git push origin `echo NAME`
-      - name: Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: GitHub Release
         run: gh release create `echo NAME` README.md
         env:
           GH_TOKEN: ${{ github.token }}
