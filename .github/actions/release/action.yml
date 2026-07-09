@@ -1,0 +1,16 @@
+name: Release
+description: Release
+inputs:
+  tag:
+    default:
+  content:
+    default:
+runs:
+  using: composite
+  steps:
+    - run: git tag -a ${{ inputs.tag }} -m "${{ github.ref }}"
+      shell: sh
+    - run: git push origin ${{ inputs.tag }}
+      shell: sh
+    - run: gh release create ${{ inputs.tag }} ${{ inputs.content }}
+      shell: sh
