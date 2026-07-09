@@ -10,7 +10,6 @@ jobs:
    timeout-minutes: 5
    steps:
      - name: Date
-       id: date
-       run: date
+       run: echo "now='date'" >> $GITHUB_ENV
      - name: Echo
-       run: echo ${{ vars.date }}
+       run: echo "${{ github.ref }} ${{ github.ref_name }} ${{ env.now }}"
