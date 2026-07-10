@@ -1,16 +1,23 @@
 name: Release
 description: Release
 inputs:
-  tag:
-    default:
+  comment:
+    default: Test
   content:
-    default:
+    default: README.md
+  tag:
+    default: ${{ github.ref_name }}
+  user_email:
+    default: actions@github.com
+  user_name:
+    default: GitHub Actions
 runs:
   using: composite
   steps:
-    - run: git tag -a ${{ inputs.tag }} -m "${{ github.ref }}"
-      shell: sh
-    - run: git push origin ${{ inputs.tag }}
-      shell: sh
-    - run: gh release create ${{ inputs.tag }} ${{ inputs.content }}
-      shell: sh
+    - shell: sh
+      run: |
+        git config --global user.name "${{ inputs.user_name }}"
+        git config --global user.email "${{ inputs.user_email }}"
+        git tag -a ${{ inputs.tag }} -m "${{ inputs.comment }}"
+        git push origin ${{ inputs.tag }}
+        gh release create ${{ inputs.tag }} ${{ inputs.content }}
